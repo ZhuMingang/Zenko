@@ -9,10 +9,17 @@
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#
-# import os
-# import sys
+
+import os
+import sys
+
+from sphinx.highlighting import PygmentsBridge
+
 # sys.path.insert(0, os.path.abspath('.'))
+doc_dir = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(os.path.dirname(doc_dir))
+import scaldoc.latex
+import scaldoc.resources
 
 # -- Project information -----------------------------------------------------
 
@@ -25,7 +32,6 @@ version = '1.0'
 # The full version, including alpha/beta/rc tags
 release = '1.0'
 
-
 # -- General configuration ---------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -36,8 +42,6 @@ release = '1.0'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 
-autosectionlabel_prefix_document = True
-
 extensions = [
             'sphinx.ext.todo',
             'sphinx.ext.ifconfig',
@@ -45,6 +49,8 @@ extensions = [
             'sphinxcontrib.inkscapeconverter',
 #            'sphinx.ext.autosectionlabel',
 ]
+
+autosectionlabel_prefix_document = True
 
 # Add any paths that contain templates here, relative to this directory.
 
@@ -124,7 +130,8 @@ html_static_path = ['_static']
 # defined by theme itself.  Builtin themes are using these templates by
 # default: ``['localtoc.html', 'relations.html', 'sourcelink.html',
 # 'searchbox.html']``.
-#
+
+html_favicon = '_static/favicon.ico'
 
 # html_sidebars = {}
 
@@ -132,10 +139,19 @@ html_static_path = ['_static']
 
 # Output file base name for HTML help builder.
 
-htmlhelp_basename = 'ZenkoOperationsGuidedoc'
-
+htmlhelp_basename = 'Zenko Help'
 
 # -- Options for LaTeX output ------------------------------------------------
+latex_engine = 'xelatex'
+
+latex_contents = r"""
+    \thispagestyle{empty}
+    \cleardoublepage
+    \sphinxtableofcontents
+"""
+
+latex_logo = scaldoc.resources.get_footer_logo()
+latex_cover = scaldoc.resources.get_cover('Zenko')
 
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
@@ -148,28 +164,42 @@ latex_elements = {
 
     # Additional stuff for the LaTeX preamble.
     #
-    # 'preamble': '',
+     'preamble': scaldoc.resources.get_latex_preamble(
+         cover=os.path.basename(latex_cover),
+         logo=os.path.basename(latex_logo),
+         title='Documentation',
+         title_voffset='1.18 in',
+         version=release,
+         copyright=copyright
+     ),
+        
+     'tableofcontents': latex_contents,
 
     # Latex figure (float) alignment
     #
     # 'figure_align': 'htbp',
 }
 
+latex_additional_files = [latex_logo, latex_cover]
+latex_additional_files.extend(scaldoc.resources.get_fonts())
+
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'ZenkoOperationsGuide.tex', 'Zenko Operations Guide Documentation',
-     'Tech Pubs', 'manual'),
+    (master_doc, 'Zenko_Documentation.tex', 'Zenko Operations Guide Documentation',
+     'Technical Publications', 'manual'),
 ]
+
+PygmentsBridge.latex_formatter = scaldoc.latex.Formatter
 
 # -- Options for manual page output ------------------------------------------
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'zenkooperationsguide', 'Zenko Operations Guide Documentation',
-     [author], 1)
+    (master_doc, 'zenko_documentation', 'Zenko Documentation',
+     'Scality Technical Publications', 1)
 ]
 
 # -- Options for Texinfo output ----------------------------------------------
@@ -178,8 +208,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'ZenkoOperationsGuide', 'Zenko Operations Guide Documentation',
-    'Scality Technical Publications', 'Zenko Operations Guide', 'Operation and Architecture Guide',
+    (master_doc, 'ZenkoDocumentation', 'Zenko Documentation',
+    'Scality Technical Publications', 'Zenko', 'Zenko Documentation',
      'manual'),
 ]
 
