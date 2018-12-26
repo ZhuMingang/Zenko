@@ -187,8 +187,8 @@ latex_additional_files.extend(scaldoc.resources.get_fonts())
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'Zenko_Documentation.tex', 'Zenko Operations Guide Documentation',
-     'Technical Publications', 'manual'),
+    (master_doc, 'Zenko_Reference.tex', 'Zenlo Reference Guide',
+     'Scality Technical Publications', 'manual'),
 ]
 
 PygmentsBridge.latex_formatter = scaldoc.latex.Formatter
@@ -198,7 +198,7 @@ PygmentsBridge.latex_formatter = scaldoc.latex.Formatter
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'zenko_documentation', 'Zenko Documentation',
+    (master_doc, 'zenko_reference', 'Zenko Reference Guide',
      'Scality Technical Publications', 1)
 ]
 
@@ -208,8 +208,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'ZenkoDocumentation', 'Zenko Documentation',
-    'Scality Technical Publications', 'Zenko', 'Zenko Documentation',
+    (master_doc, 'ZenkoReference', 'Zenko Reference Guide',
+    'Scality Technical Publications', 'Zenko', 'Zenko Reference',
      'manual'),
 ]
 
@@ -230,6 +230,10 @@ texinfo_documents = [
 
 # A list of files that should not be packed into the epub file.
 # epub_exclude_files = ['search.html']
+
+
+#def setup(app):
+#        app.add_stylesheet('_static/style.css')
 
 def setup(app):
         app.add_stylesheet('custom.css')
